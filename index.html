@@ -9,17 +9,38 @@
         /* align-items: center; */
         align-content: center;
       }
+      #myChart{
+        position: relative;
+        z-index: 0;
+      }
+      #position{
+        position: absolute;
+        margin-left: 515px;
+        font-size: 12px;
+        margin-top: -340px;
+        z-index: 2;
+        font-weight: bold;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+      }
+      #ispu{
+        position: absolute;
+        margin-left: 510px;
+        margin-top: -370px;
+        font-weight: bold;
+        text-align: center;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+      }
     </style>
   </head>
   <body>
     <div id="ukuran">
-      <table style="width: 956px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+      <table style="width: 950px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
         <tr>
           <td><img src="image/icon_pelindo.png" alt="PT. Pelabuhan Indonesia 2 (Persero) Cabang Cirebon" width="200px"></td>
           <td><h1 style="font-size: 36px;">PT. Pelabuhan Indonesia 2 (Persero)<br>Cabang Cirebon</h1></td>
         </tr>
       </table><br>
-      <table style="width: 956px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+      <table style="width: 950px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
         <tr>
           <td style="background-color: blue;">
             <h1 style="color: white; text-align: center; font-size: 22px;">Indeks Standar Pencemaran Udara (ISPU) <br> Update terakhir (tanggal) (waktu)</h1>
@@ -29,13 +50,34 @@
       <table width="100%">
         <tr>
           <td style="height: 360px;">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3962.4484099712517!2d108.56710831512792!3d-6.715004995145384!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6ee28a1327b789%3A0x73a0323bd6d9403e!2sPelindo%202%20Cirebon!5e0!3m2!1sid!2sid!4v1605670503184!5m2!1sid!2sid" width="480" height="360" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3962.4484099712517!2d108.56710831512792!3d-6.715004995145384!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6ee28a1327b789%3A0x73a0323bd6d9403e!2sPelindo%202%20Cirebon!5e0!3m2!1sid!2sid!4v1605670503184!5m2!1sid!2sid" width="470" height="360" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
           </td>
           <td>
-            <canvas id="myChart" width="482" height="330"></canvas>
+            <canvas id="myChart" width="472s" height="330"></canvas>
           </td>
         </tr>
       </table>
+      <div id="position">
+        <table>
+          <tr style="height: 105px; color: white;"><td>Berbahaya</td></tr>
+          <tr style="height: 60px; color: white;"><td>Sangat Tidak <br>Sehat</td></tr>
+          <tr style="height: 60px; color: black;"><td>Tidak Sehat</td></tr>
+          <tr style="height: 30px; color: black;"><td>Sedang</td></tr>
+          <tr style="height: 30px; color: black;"><td>Baik</td></tr>
+        </table>
+      </div>     
+      <div id="ispu">
+        <table>
+          <tr>
+            <td style="width: 69px;">ISPU</td>
+            <td style="width: 69px;">PM10</td>
+            <td style="width: 69px;">SO2</td>
+            <td style="width: 69px;">CO</td>
+            <td style="width: 69px;">O3</td>
+            <td style="width: 69px;">NO2</td>
+          </tr>
+        </table>
+      </div> 
     </div>
     <script>
       var canvas = document.getElementById('myChart');
@@ -54,7 +96,7 @@
           {
               type: 'bar',
               data: {
-      labels: ["TITLE","PM10", "SO2", "CO", "O3", "NO2"],
+      labels: ["ISPU","PM10", "SO2", "CO", "O3", "NO2"],
       datasets: [{
         // label: '# of Votes',
         data: [0, 45, 80, 180, 280, 400],
@@ -107,6 +149,11 @@
                               // suggestedMin: 0,
                               stepSize: 50,
                               suggestedMax: 500,
+                          }
+                      }],
+                      xAxes: [{
+                          ticks: {
+                            display: false
                           }
                       }]
                   }
