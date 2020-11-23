@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <script src="js/Chart.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
     <style>
       #ukuran {
         width: 768px;
@@ -31,8 +32,9 @@
         font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
       }
     </style>
+    <!-- <meta http-equiv="refresh" content="10"> -->
   </head>
-  <body>
+  <body onload="startTime()">
     <div id="ukuran">
       <table style="width: 950px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
         <tr>
@@ -43,7 +45,7 @@
       <table style="width: 950px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
         <tr>
           <td style="background-color: blue;">
-            <h1 style="color: white; text-align: center; font-size: 22px;">Indeks Standar Pencemaran Udara (ISPU) <br> Update terakhir (tanggal) (waktu)</h1>
+            <h1 style="color: white; text-align: center; font-size: 22px;">Indeks Standar Pencemaran Udara (ISPU) <br> Update terakhir ( <a class="waktu"></a> )</h1>
           </td>
         </tr>
       </table><br>
@@ -53,7 +55,9 @@
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3962.4484099712517!2d108.56710831512792!3d-6.715004995145384!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6ee28a1327b789%3A0x73a0323bd6d9403e!2sPelindo%202%20Cirebon!5e0!3m2!1sid!2sid!4v1605670503184!5m2!1sid!2sid" width="470" height="360" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
           </td>
           <td>
-            <canvas id="myChart" width="472s" height="330"></canvas>
+            <div class="lod">
+              <canvas id="myChart" width="472s" height="330"></canvas>
+            </div>
           </td>
         </tr>
       </table>
@@ -79,10 +83,22 @@
         </table>
       </div> 
     </div>
-    <script>
-      var canvas = document.getElementById('myChart');
-      height: 660,
-      window.chartColors = {
+
+<script>
+  function startTime() {
+
+    var ajx =  $.ajax({
+      url: "http://ispumaps.id/ispumapapi/api/aqmoutdoor?trusur_api_key=VHJ1c3VyVW5nZ3VsVGVrbnVzYV9wVA==&id_stasiun=jakarta",
+      type: "GET",
+      dataType: "JSON",
+      data:JSON.stringify({ }),
+      success:function(data){
+        
+        $('.waktu').html(data.waktu)
+
+        var canvas = document.getElementById('myChart');
+        height: 660,
+        window.chartColors = {
           red: 'rgb(255, 99, 132)',
           orange: 'rgb(255, 159, 64)',
           yellow: 'rgb(255, 205, 86)',
@@ -90,94 +106,98 @@
           blue: 'rgb(54, 162, 235)',
           purple: 'rgb(153, 102, 255)',
           grey: 'rgb(201, 203, 207)'
-      };
+        };
 
-      var myLineChart = new Chart(canvas,
+        var myLineChart = new Chart(canvas,
           {
-              type: 'bar',
-              data: {
-      labels: ["ISPU","PM10", "SO2", "CO", "O3", "NO2"],
-      datasets: [{
-        // label: '# of Votes',
-        data: [0, 45, 80, 180, 280, 400],
-        backgroundColor: [
-        'rgb(255, 174, 71)',
-        'rgb(255, 174, 71)',
-        'rgb(255, 174, 71)',
-        'rgb(255, 174, 71)',
-        'rgb(255, 174, 71)',
-        'rgb(255, 174, 71)'
-        ],
-        borderColor: [
-        'rgb(0, 0, 255)',
-        'rgb(0, 0, 255)',
-        'rgb(0, 0, 255)',
-        'rgb(0, 0, 255)',
-        'rgb(0, 0, 255)',
-        'rgb(0, 0, 255)'
-        ],
-        borderWidth: 1
-      }]
-    },
-              options: {
-                  legend: {
-                      display: false
-                  },
-                  responsive: true,
-                  backgroundRules: [{
-                      backgroundColor: '#00f214', 
-                      yAxisSegement: 50
-                  }, {
-                      backgroundColor: '#00baf2',
-                      yAxisSegement: 100
-                  }, {
-                      backgroundColor: '#eef200',
-                      yAxisSegement: 200
-                  }, {
-                      backgroundColor: '#f20000',
-                      yAxisSegement: 300
-                  }, {
-                      backgroundColor: '#000',
-                      yAxisSegement: 500
-                  }],
-                  scales: {
-                      yAxes: [{
-                          ticks: {
-                              beginAtZero: true,
-                              // stepSize: 1,
-                              // beginAtZero: true,
-                              // suggestedMin: 0,
-                              stepSize: 50,
-                              suggestedMax: 500,
-                          }
-                      }],
-                      xAxes: [{
-                          ticks: {
-                            display: false
-                          }
-                      }]
-                  }
+            type: 'bar',
+            data: {
+              labels: ["ISPU","PM10", "SO2", "CO", "O3", "NO2"],
+              datasets: [{
+                // label: '# of Votes',
+                data: [0, data.pm10, data.so2, data.co, data.o3, data.pm25],
+                backgroundColor: [
+                'rgb(255, 174, 71)',
+                'rgb(255, 174, 71)',
+                'rgb(255, 174, 71)',
+                'rgb(255, 174, 71)',
+                'rgb(255, 174, 71)',
+                'rgb(255, 174, 71)'
+                ],
+                borderColor: [
+                'rgb(0, 0, 255)',
+                'rgb(0, 0, 255)',
+                'rgb(0, 0, 255)',
+                'rgb(0, 0, 255)',
+                'rgb(0, 0, 255)',
+                'rgb(0, 0, 255)'
+                ],
+                borderWidth: 1
+              }]
+            },
+            options: {
+              legend: {
+                  display: false
               },
-              plugins: [{
-                  beforeDraw: function (chart) {
-                      var ctx = chart.chart.ctx;
-                      var ruleIndex = 0;
-                      var rules = chart.chart.options.backgroundRules;
-                      var yaxis = chart.chart.scales["y-axis-0"];
-                      var xaxis = chart.chart.scales["x-axis-0"];
-                      var partPercentage = 1 / (yaxis.ticksAsNumbers.length - 1);
-                      for (var i = yaxis.ticksAsNumbers.length - 1; i > 0; i--) {
-                          if (yaxis.ticksAsNumbers[i] < rules[ruleIndex].yAxisSegement) {
-                              ctx.fillStyle = rules[ruleIndex].backgroundColor;
-                              ctx.fillRect(xaxis.left, yaxis.top + ((i - 1) * (yaxis.height * partPercentage)), xaxis.width, yaxis.height * partPercentage);
-                          } else {
-                              ruleIndex++;
-                              i++;
-                          }
+              responsive: true,
+              backgroundRules: [{
+                  backgroundColor: '#00f214', 
+                  yAxisSegement: 50
+              }, {
+                  backgroundColor: '#00baf2',
+                  yAxisSegement: 100
+              }, {
+                  backgroundColor: '#eef200',
+                  yAxisSegement: 200
+              }, {
+                  backgroundColor: '#f20000',
+                  yAxisSegement: 300
+              }, {
+                  backgroundColor: '#000',
+                  yAxisSegement: 500
+              }],
+              scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        stepSize: 50,
+                        suggestedMax: 500,
+                    }
+                }],
+                xAxes: [{
+                    ticks: {
+                      display: false
+                    }
+                }]
+              }
+            },
+            plugins: [{
+              beforeDraw: function (chart) {
+                  var ctx = chart.chart.ctx;
+                  var ruleIndex = 0;
+                  var rules = chart.chart.options.backgroundRules;
+                  var yaxis = chart.chart.scales["y-axis-0"];
+                  var xaxis = chart.chart.scales["x-axis-0"];
+                  var partPercentage = 1 / (yaxis.ticksAsNumbers.length - 1);
+                  for (var i = yaxis.ticksAsNumbers.length - 1; i > 0; i--) {
+                      if (yaxis.ticksAsNumbers[i] < rules[ruleIndex].yAxisSegement) {
+                          ctx.fillStyle = rules[ruleIndex].backgroundColor;
+                          ctx.fillRect(xaxis.left, yaxis.top + ((i - 1) * (yaxis.height * partPercentage)), xaxis.width, yaxis.height * partPercentage);
+                      } else {
+                          ruleIndex++;
+                          i++;
                       }
                   }
-              }]
+              }
+            }]
           });
+
+      }
+    });
+
+    var t = setTimeout(startTime, 60000);
+  }
+      // }
     </script>
   </body>
 </html>
