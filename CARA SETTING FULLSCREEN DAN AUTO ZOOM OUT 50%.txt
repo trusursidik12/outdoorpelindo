@@ -1,0 +1,1 @@
+"C:\Program Files\Google\Chrome\Application\chrome.exe" --start-fullscreen --app=file:///C:/xampp/htdocs/outdoorpelindo/index.html
