@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- leaflet css -->
+    <link rel="stylesheet" href="js/leaflet/leaflet.css">
+    <link rel="stylesheet" href="js/bootstrap.css">
     <script src="js/Chart.min.js"></script>
     <script src="js/jquery-3.5.0.js"></script>
+    <!-- leaflet js -->
+    <script src="js/leaflet/leaflet.js"></script>
     <style>
       #myChart{
         position: relative;
@@ -10,81 +15,107 @@
       }
       #position{
         position: absolute;
-        left: 365px;
+        left:400px;
         font-size: 18px;
-        margin-top: -285px;
+        margin-top: -25px;
         z-index: 2;
         font-weight: bold;
+        text-align: center;
         font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
       }
       #ispu{
         position: absolute;
-        margin-left: 350px;
+        margin-left: 385px;
         margin-top: -315px;
         font-weight: bold;
-        text-align: center;
+        text-align: left;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+      }
+      #levelbar{
+        position: absolute;
+        margin-left: 350px;
+        margin-top: -340px;
+        font-size: 18px;
+        font-weight: bold;
+        text-align: left;
         font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
       }
     </style>
     <meta http-equiv="refresh" content="60000">
   </head>
-  <body onload="startTime()" style="margin:0px;padding: 0px;">
-    <table border="0" width="768" cellpadding="0" cellspacing="0">
-      <tr>
-        <td>
-          <table style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
-            <tr>
-              <td><img src="image/icon_pelindo.png" alt="PT. Pelabuhan Indonesia 2 (Persero) Cabang Cirebon" width="200px"></td>
-              <td><h1 style="font-size: 30px;">PT. Pelabuhan Indonesia 2 (Persero)<br>Cabang Cirebon</h1></td>
-            </tr>
-          </table>
-          <table style="width:100%;font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
-            <tr>
-              <td style="background-color: blue;">
-                <h1 style="color: white; text-align: center; font-size: 20px">Indeks Standar Pencemaran Udara (ISPU) <br> Update terakhir <a class="waktu"></a></h1>
-              </td>
-            </tr>
-          </table>
-          <br>
-          <table width="100%">
-            <tr>
-              <td>
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3962.4484099712517!2d108.56710831512792!3d-6.715004995145384!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6ee28a1327b789%3A0x73a0323bd6d9403e!2sPelindo%202%20Cirebon!5e0!3m2!1sid!2sid!4v1605670503184!5m2!1sid!2sid" width="300" height="250" frameborder="0" style="border:0;" allowfullscreen="false" aria-hidden="false" tabindex="0"></iframe>
-              </td>
-              <td style="width:2px;"></td>
-              <td>
-                <td>
-                  <div class="lod">
-                    <canvas id="myChart" width="384" height="255"></canvas>
-                  </div>
-                </td>
-              </td>
-            </tr>
-          </table>
-          <div id="position">
-            <table>
-              <tr style="height: 105px; color: white;"><td>Berbahaya</td></tr>
-              <tr style="height: 50px; color: white;"><td>Sangat Tidak <br>Sehat</td></tr>
-              <tr style="height: 50px; color: black;"><td>Tidak Sehat</td></tr>
-              <tr style="height: 30px; color: black;"><td>Sedang</td></tr>
-              <tr style="height: 30px; color: black;"><td>Baik</td></tr>
-            </table>
-          </div>     
-          <div id="ispu">
-            <table>
+  <body onload="startTime()" style="margin-left: 5px;">
+    <div>
+      <table border="0" width="755" cellpadding="0" cellspacing="0">
+        <tr>
+          <td>
+            <table style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
               <tr>
-                <td style="width: 64px;">ISPU</td>
-                <td style="width: 64px;">PM10</td>
-                <td style="width: 64px;">SO2</td>
-                <td style="width: 64px;">CO</td>
-                <td style="width: 64px;">O3</td>
-                <td style="width: 64px;">NO2</td>
+                <td><img src="image/icon_pelindo.png" alt="PT. Pelabuhan Indonesia 2 (Persero) Cabang Cirebon" width="200px"></td>
+                <td><h1 style="font-size: 30px;">PT. Pelabuhan Indonesia 2 (Persero)<br>Cabang Cirebon</h1></td>
               </tr>
             </table>
-          </div>
-        </td>
-      </tr>
-    </table>
+            <table style="width:100%;font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+              <tr>
+                <td style="background-color: blue;">
+                  <h1 style="color: white; text-align: center; font-size: 20px">Indeks Standar Pencemaran Udara (ISPU) <br> Update terakhir <b><a class="waktu" style="color: white;"></a></b></h1>
+                </td>
+              </tr>
+            </table>
+            <br>
+            <div class="row" id="position">
+              <table> 
+                <tr>
+                  <td width="63">ISPU</td>
+                  <td width="63">PM10</td>
+                  <td width="63">SO2</td>
+                  <td width="63">CO</td>
+                  <td width="63">O3</td>
+                  <td width="63">NO2</td>
+                </tr>
+              </table>
+            </div>
+            <div class="row">
+              <div class="col" style="width: 45%;">
+                <div id="map" style="width: 100%; height: 320px;"></div>
+              </div>
+              <div class="col" style="width: 65%;">
+                <canvas id="myChart" width="384" height="330"></canvas>
+              </div>
+            </div>
+            <div class="row" id="ispu">
+              <table>
+                <tr height="120"><td style="color: white;">Berbahaya</td></tr>
+                <tr height="60"><td style="color:white">Sangat<br>Tidak Sehat</td></tr>
+                <tr height="60"><td>Tidak Sehat</td></tr>
+                <tr height="30"><td>Sedang</td></tr>
+                <tr height="40"><td>Baik</td></tr>
+              </table>
+            </div>
+            <div class="row" id="levelbar">
+              <table>
+                <tr height="120" valign="top"><td>500</td></tr>
+                <tr height="65" valign="top"><td>300</td></tr>
+                <tr height="65" valign="top"><td>200</td></tr>
+                <tr height="30" valign="top"><td>100</td></tr>
+                <tr height="40" valign="top"><td>50</td></tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+    
+<script>
+    var map = L.map('map',{zoomControl: false}).setView([-6.717635,108.571053], 12);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  }).addTo(map);
+  
+  L.marker([-6.717635,108.571053]).addTo(map)
+      .bindPopup(' Nama Stasiun : PELINDO II 01 <br> Alamat Jl. Pelabuhan No.1, Panjunan, Kec. Lemahwungkuk, Kota Cirebon <br> Kota : Cirebon <br> Propinsi : Jawa Barat')
+      // .openPopup();
+  
+</script>
 
 <script>
 
@@ -107,7 +138,7 @@
   function startTime() {
 
     var ajx =  $.ajax({
-      url: "https://ispumaps.id/ispumapapi/api/aqmoutdoor?trusur_api_key=VHJ1c3VyVW5nZ3VsVGVrbnVzYV9wVA==&id_stasiun=jakarta",
+      url: "https://ispumaps.id/ispumapapi/api/aqmoutdoor?trusur_api_key=VHJ1c3VyVW5nZ3VsVGVrbnVzYV9wVA==&id_stasiun=pelindo2_01",
       type: "GET",
       dataType: "JSON",
       data:JSON.stringify({ }),
@@ -181,6 +212,7 @@
                         beginAtZero: true,
                         stepSize: 50,
                         suggestedMax: 500,
+                        display: false
                     },
                     gridLines: {
                         display: false,
@@ -189,10 +221,7 @@
                 xAxes: [{
                     ticks: {
                       display: false
-                    },
-                    gridLines: {
-                        display: false,
-                    },
+                    }
                 }]
               }
             },
