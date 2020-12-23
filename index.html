@@ -138,12 +138,12 @@
   function startTime() {
 
     var ajx =  $.ajax({
-      url: "https://ispumaps.id/ispumapapi/api/aqmoutdoor?trusur_api_key=VHJ1c3VyVW5nZ3VsVGVrbnVzYV9wVA==&id_stasiun=pelindo2_01",
+      url: "https://ispumaps.id/ispumapapi/api/aqmoutdoor?trusur_api_key=VHJ1c3VyVW5nZ3VsVGVrbnVzYV9wVA==&id_stasiun=pelindo1_cirebon",
       type: "GET",
       dataType: "JSON",
       data:JSON.stringify({ }),
       success:function(data){
-        console.log(data.waktu);
+        console.log(data);
         $('.waktu').html(formatTanggal(data.waktu))
 
         var canvas = document.getElementById('myChart');
@@ -157,7 +157,7 @@
           purple: 'rgb(153, 102, 255)',
           grey: 'rgb(201, 203, 207)'
         };
-
+		console.log(data.pm10 + "::" + data.so2 + "::" + data.co + "::" + data.o3 + "::" + data.no2);
         var myLineChart = new Chart(canvas,
           {
             type: 'bar',
@@ -165,7 +165,7 @@
               labels: ["ISPU","PM10", "SO2", "CO", "O3", "NO2"],
               datasets: [{
                 // label: '# of Votes',
-                data: [0, data.pm10, data.so2, data.co, data.o3, data.pm25],
+                data: [0, data.pm10, data.so2 / 15, (data.co*1) +25, data.o3, data.no2],
                 backgroundColor: [
                 'rgb(255, 174, 71)',
                 'rgb(255, 174, 71)',
